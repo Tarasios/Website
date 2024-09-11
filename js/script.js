@@ -1,6 +1,5 @@
 // User input for number of buttons
 const userPromptMessage = "How many buttons to create?";
-let messages = {}; // We will load this from /lang/messages/en/user.js
 
 // Class to handle game button creation
 class GameButton {
