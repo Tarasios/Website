@@ -70,7 +70,7 @@ class ButtonManager {
         this.removeExistingButtons();
         
         for (let i = 0; i < n; i++) {
-            const color = this.generateDistinctColor(i, n); // Generate distinct color for each button
+            const color = this.generateRandomColor(); // Generate a random color for each button
             const pattern = this.generateRandomPattern(color); // Add a random pattern
             const button = new GameButton(i + 1, color, pattern); // Create a new button
             this.buttons.push(button); // Add button to the list
@@ -88,10 +88,12 @@ class ButtonManager {
         });
     }
 
-    // Generate a distinct color for each button based on its index
-    generateDistinctColor(index, total) {
-        const hue = (index / total) * 360; // Ensure different hues
-        return `hsl(${hue}, 100%, 50%)`; // Full saturation, medium lightness
+    // Generate a random color for each button
+    generateRandomColor() {
+        const hue = Math.random() * 360; // Random hue between 0 and 360
+        const saturation = 70 + Math.random() * 30; // Random saturation between 70% and 100%
+        const lightness = 50 + Math.random() * 20; // Random lightness between 50% and 70%
+        return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
     }
 
     // Add random patterns to buttons
