@@ -35,12 +35,33 @@ class ButtonManager {
         this.correctSequence = [];
     }
 
+    // Use a function to generate a distinct color
+    generateDistinctColor(index, total) {
+        const hue = (index / total) * 360; // Ensure different hues
+        return `hsl(${hue}, 100%, 50%)`; // Full saturation, medium lightness
+    }
+
+    // Add random patterns to buttons
+    generateRandomPattern(color) {
+        const patterns = [
+            `repeating-linear-gradient(45deg, ${color}, ${color} 10px, white 10px, white 20px)`, // Stripes
+            `radial-gradient(circle, ${color} 50%, white 50%)`, // Dots
+            `repeating-linear-gradient(90deg, ${color}, ${color} 10px, white 10px, white 20px)`, // Horizontal stripes
+            `repeating-linear-gradient(135deg, ${color}, ${color} 5px, white 5px, white 10px)` // Diagonal stripes
+        ];
+
+        // Randomly select a pattern
+        const randomIndex = Math.floor(Math.random() * patterns.length);
+        return patterns[randomIndex];
+    }
+
     createButtons(n) {
         this.numButtons = n;
         this.removeExistingButtons();
         for (let i = 0; i < n; i++) {
-            const randomColor = this.getRandomColor();
-            const button = new GameButton(randomColor, i);
+            const color = this.generateDistinctColor(i, n);
+            const pattern = this.generateRandomPattern(color);
+            const button = new GameButton(i + 1, color, pattern);
             this.buttons.push(button);
             this.correctSequence.push(i);
         }
@@ -87,15 +108,6 @@ class ButtonManager {
         this.buttons = [];
         this.userSequence = [];
         this.correctSequence = [];
-    }
-
-    getRandomColor() {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
     }
 
     hideOrders() {
