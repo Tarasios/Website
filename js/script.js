@@ -47,6 +47,43 @@ class ButtonManager {
         this.correctSequence = [];
     }
 
+    // Method to remove all existing buttons
+    removeExistingButtons() {
+        // Loop through all buttons and remove them from the DOM
+        this.buttons.forEach(button => {
+            button.buttonElement.remove(); // Remove from the DOM
+        });
+
+        // Clear the buttons array and sequences
+        this.buttons = [];
+        this.userSequence = [];
+        this.correctSequence = [];
+    }
+
+    createButtons(n) {
+        this.numButtons = n;
+        
+        // Call removeExistingButtons to clear previous buttons
+        this.removeExistingButtons();
+        
+        for (let i = 0; i < n; i++) {
+            const color = this.generateDistinctColor(i, n);
+            const pattern = this.generateRandomPattern(color);
+            const button = new GameButton(i + 1, color, pattern);
+            this.buttons.push(button);
+            this.correctSequence.push(i);
+        }
+        this.displayButtonsInRow();
+    }
+
+    displayButtonsInRow() {
+        let leftPos = 0;
+        this.buttons.forEach(button => {
+            button.setPosition(100, leftPos); // Set initial positions in a row
+            leftPos += 120; // Adjust next button's position
+        });
+    }
+
     // Use a function to generate a distinct color
     generateDistinctColor(index, total) {
         const hue = (index / total) * 360; // Ensure different hues
@@ -65,27 +102,6 @@ class ButtonManager {
         // Randomly select a pattern
         const randomIndex = Math.floor(Math.random() * patterns.length);
         return patterns[randomIndex];
-    }
-
-    createButtons(n) {
-        this.numButtons = n;
-        this.removeExistingButtons();
-        for (let i = 0; i < n; i++) {
-            const color = this.generateDistinctColor(i, n);
-            const pattern = this.generateRandomPattern(color);
-            const button = new GameButton(i + 1, color, pattern);
-            this.buttons.push(button);
-            this.correctSequence.push(i);
-        }
-        this.displayButtonsInRow();
-    }
-
-    displayButtonsInRow() {
-        let leftPos = 0;
-        this.buttons.forEach(button => {
-            button.setPosition(100, leftPos); // Set initial positions in a row
-            leftPos += 120; // Adjust next button's position
-        });
     }
 
     enableUserInput() {
