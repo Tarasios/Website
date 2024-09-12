@@ -151,8 +151,9 @@ class ScrambleManager {
 
 class ButtonInputBox {
     constructor() {
-        this.inputElement = this.createInputBox();
-        this.startButton = null; // Reference to the start button
+        this.inputElement = null;  // Initialize with null to avoid any undefined issues
+        this.startButton = null;  // Initialize with null
+        this.createInputBox();  // Call the method to create the input and button
     }
 
     createInputBox() {
@@ -162,27 +163,25 @@ class ButtonInputBox {
         inputBoxLabel.innerText = MESSAGES.userPromptMessage;
 
         // Create input field
-        const inputBox = document.createElement('input');
-        inputBox.id = 'numButtons';
-        inputBox.type = 'number';
-        inputBox.min = 3;
-        inputBox.max = 7;
-        inputBox.placeholder = 'Enter a number between 3 and 7';
+        this.inputElement = document.createElement('input');  // Set to the instance variable
+        this.inputElement.id = 'numButtons';
+        this.inputElement.type = 'number';
+        this.inputElement.min = 3;
+        this.inputElement.max = 7;
+        this.inputElement.placeholder = 'Enter a number between 3 and 7';
 
         // Create button
-        this.startButton = document.createElement('button');
+        this.startButton = document.createElement('button');  // Set to the instance variable
         this.startButton.id = 'startBtn';
         this.startButton.innerText = MESSAGES.goButtonText;
 
         // Append input elements to the document body
         document.body.appendChild(inputBoxLabel);
-        document.body.appendChild(inputBox);
+        document.body.appendChild(this.inputElement);
         document.body.appendChild(this.startButton);
 
         // Add event listener to the button
         this.startButton.addEventListener('click', () => this.onButtonClick());
-
-        return inputBox;
     }
 
     getNumberOfButtons() {
@@ -195,13 +194,21 @@ class ButtonInputBox {
     }
 
     disableInput() {
-        this.inputElement.disabled = true;
-        this.startButton.disabled = true;
+        if (this.inputElement && this.startButton) {
+            this.inputElement.disabled = true;
+            this.startButton.disabled = true;
+        } else {
+            console.error("Input or Start Button not found.");
+        }
     }
 
     enableInput() {
-        this.inputElement.disabled = false;
-        this.startButton.disabled = false;
+        if (this.inputElement && this.startButton) {
+            this.inputElement.disabled = false;
+            this.startButton.disabled = false;
+        } else {
+            console.error("Input or Start Button not found.");
+        }
     }
 
     onButtonClick() {
@@ -221,13 +228,13 @@ class ButtonInputBox {
             }, numButtons * 1000); // Wait n seconds before scrambling
 
             // Re-enable the input and button after the game ends
-            // Assuming this happens after user clicks all the buttons in the correct order
             setTimeout(() => {
                 this.enableInput();
             }, (numButtons * 2000) + 5000); // Estimate game time (scrambling + play time)
         }
     }
 }
+
 
 
 // Initialize the input box and start the game
