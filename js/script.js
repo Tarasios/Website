@@ -1,5 +1,5 @@
 // User input for number of buttons
-const userPromptMessage = "How many buttons to create?";
+import MESSAGES from '../lang/messages/en/user.js';
 
 // Class to handle game button creation
 class GameButton {
@@ -38,9 +38,9 @@ class ButtonManager {
     }
 
     getNumButtonsFromUser() {
-        let num = parseInt(prompt(messages.userPromptMessage));
+        let num = parseInt(prompt(MESSAGES.userPromptMessage));
         while (isNaN(num) || num < 3 || num > 7) {
-            num = parseInt(prompt(messages.invalidInputMessage));
+            num = parseInt(prompt(MESSAGES.invalidInputMessage));
         }
         return num;
     }
@@ -78,10 +78,10 @@ class ButtonManager {
             this.userSequence.push(index);
             this.buttons[index].showOrder();
             if (this.userSequence.length === this.numButtons) {
-                alert(messages.successMessage);
+                alert(MESSAGES.successMessage);
             }
         } else {
-            alert(messages.failureMessage);
+            alert(MESSAGES.failureMessage);
             this.revealCorrectSequence();
         }
     }
