@@ -1,7 +1,5 @@
-// User input for number of buttons
 import MESSAGES from '../lang/messages/en/user.js';
 
-// Class to handle game button creation
 class GameButton {
     constructor(color, order) {
         this.order = order;
@@ -35,14 +33,6 @@ class ButtonManager {
         this.numButtons = 0;
         this.userSequence = [];
         this.correctSequence = [];
-    }
-
-    getNumButtonsFromUser() {
-        let num = parseInt(prompt(MESSAGES.userPromptMessage));
-        while (isNaN(num) || num < 3 || num > 7) {
-            num = parseInt(prompt(MESSAGES.invalidInputMessage));
-        }
-        return num;
     }
 
     createButtons(n) {
@@ -144,3 +134,67 @@ class ScrambleManager {
         });
     }
 }
+
+// Class to handle input and game start logic
+class ButtonInputBox {
+    constructor() {
+        this.inputElement = this.createInputBox();
+    }
+
+    createInputBox() {
+        // Create label
+        const inputBoxLabel = document.createElement('label');
+        inputBoxLabel.htmlFor = 'numButtons';
+        inputBoxLabel.innerText = MESSAGES.userPromptMessage;
+
+        // Create input field
+        const inputBox = document.createElement('input');
+        inputBox.id = 'numButtons';
+        inputBox.type = 'number';
+        inputBox.min = 3;
+        inputBox.max = 7;
+        inputBox.placeholder = 'Enter a number between 3 and 7';
+
+        // Create button
+        const startButton = document.createElement('button');
+        startButton.id = 'startBtn';
+        startButton.innerText = MESSAGES.goButtonText;
+
+        // Append input elements to the document body
+        document.body.appendChild(inputBoxLabel);
+        document.body.appendChild(inputBox);
+        document.body.appendChild(startButton);
+
+        // Add event listener to the button
+        startButton.addEventListener('click', () => this.onButtonClick());
+
+        return inputBox;
+    }
+
+    getNumberOfButtons() {
+        const value = parseInt(this.inputElement.value, 10);
+        if (isNaN(value) || value < 3 || value > 7) {
+            alert(MESSAGES.invalidInputMessage);
+            return null;
+        }
+        return value;
+    }
+
+    onButtonClick() {
+        const numButtons = this.getNumberOfButtons();
+        if (numButtons !== null) {
+            const buttonManager = new ButtonManager();
+            const scrambleManager = new ScrambleManager(buttonManager);
+
+            buttonManager.createButtons(numButtons);
+
+            // Start scrambling after a pause of numButtons seconds
+            setTimeout(() => {
+                scrambleManager.scrambleButtons(numButtons);
+            }, numButtons * 1000); // Wait n seconds before scrambling
+        }
+    }
+}
+
+// Initialize the input box and start the game
+const inputBox = new ButtonInputBox();
