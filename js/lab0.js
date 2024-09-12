@@ -206,8 +206,8 @@ class ScrambleManager {
         // Loop through the already determined new positions to check for overlap
         for (let pos of existingPositions) {
             const [posX, posY] = pos;
-            
-            // Check for overlap in both the X and Y directions
+
+            // Check for overlap in both the X and Y directions (ensuring full button area)
             const overlapX = newX < posX + buttonWidth && newX + buttonWidth > posX;
             const overlapY = newY < posY + buttonHeight && newY + buttonHeight > posY;
 
@@ -234,7 +234,6 @@ class ScrambleManager {
         });
     }
 }
-
 
 
 class ButtonInputBox {
