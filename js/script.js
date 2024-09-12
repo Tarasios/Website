@@ -18,38 +18,40 @@ class GameButton {
         this.position = [0, 0];
     }
 
+    // Set the position of the button in the DOM
     setPosition(top, left) {
         this.position = [left, top];
         this.buttonElement.style.top = top + 'px';
         this.buttonElement.style.left = left + 'px';
     }
 
+    // Hide the order on the button
     hideOrder() {
         this.buttonElement.innerText = ''; // Hide the order
     }
 
+    // Show the order on the button
     showOrder() {
         this.buttonElement.innerText = this.order; // Reveal the order
     }
 
+    // Move the button to a new position
     move(newPosition) {
         this.setPosition(newPosition[1], newPosition[0]);
     }
 }
 
 
-
 class ButtonManager {
     constructor() {
-        this.buttons = [];
+        this.buttons = []; // List of current buttons
         this.numButtons = 0;
-        this.userSequence = [];
-        this.correctSequence = [];
+        this.userSequence = []; // User's click sequence
+        this.correctSequence = []; // Correct sequence
     }
 
-    // Method to remove all existing buttons
+    // Method to remove all existing buttons from the DOM and clear arrays
     removeExistingButtons() {
-        // Loop through all buttons and remove them from the DOM
         this.buttons.forEach(button => {
             button.buttonElement.remove(); // Remove from the DOM
         });
@@ -60,22 +62,24 @@ class ButtonManager {
         this.correctSequence = [];
     }
 
+    // Create new buttons and remove old ones
     createButtons(n) {
         this.numButtons = n;
-        
-        // Call removeExistingButtons to clear previous buttons
+
+        // Clear any previous buttons before creating new ones
         this.removeExistingButtons();
         
         for (let i = 0; i < n; i++) {
-            const color = this.generateDistinctColor(i, n);
-            const pattern = this.generateRandomPattern(color);
-            const button = new GameButton(i + 1, color, pattern);
-            this.buttons.push(button);
-            this.correctSequence.push(i);
+            const color = this.generateDistinctColor(i, n); // Generate distinct color for each button
+            const pattern = this.generateRandomPattern(color); // Add a random pattern
+            const button = new GameButton(i + 1, color, pattern); // Create a new button
+            this.buttons.push(button); // Add button to the list
+            this.correctSequence.push(i); // Store the correct sequence
         }
         this.displayButtonsInRow();
     }
 
+    // Display buttons in a row (for initial layout)
     displayButtonsInRow() {
         let leftPos = 0;
         this.buttons.forEach(button => {
@@ -84,7 +88,7 @@ class ButtonManager {
         });
     }
 
-    // Use a function to generate a distinct color
+    // Generate a distinct color for each button based on its index
     generateDistinctColor(index, total) {
         const hue = (index / total) * 360; // Ensure different hues
         return `hsl(${hue}, 100%, 50%)`; // Full saturation, medium lightness
@@ -104,6 +108,7 @@ class ButtonManager {
         return patterns[randomIndex];
     }
 
+    // Enable the user to click on the buttons (after scrambling)
     enableUserInput() {
         this.buttons.forEach((button, index) => {
             button.buttonElement.addEventListener('click', () => {
@@ -112,32 +117,26 @@ class ButtonManager {
         });
     }
 
+    // Handle user click on a button
     handleUserClick(index) {
         if (this.correctSequence[this.userSequence.length] === index) {
-            this.userSequence.push(index);
-            this.buttons[index].showOrder();
+            this.userSequence.push(index); // Record user's choice
+            this.buttons[index].showOrder(); // Reveal the button's order
             if (this.userSequence.length === this.numButtons) {
-                alert(MESSAGES.successMessage);
+                alert(MESSAGES.successMessage); // If all buttons are clicked correctly
             }
         } else {
-            alert(MESSAGES.failureMessage);
-            this.revealCorrectSequence();
+            alert(MESSAGES.failureMessage); // If user clicks incorrectly
+            this.revealCorrectSequence(); // Reveal the correct order
         }
     }
 
+    // Reveal the correct order of the buttons
     revealCorrectSequence() {
         this.buttons.forEach(button => button.showOrder());
     }
 
-    removeExistingButtons() {
-        this.buttons.forEach(button => {
-            button.buttonElement.remove();
-        });
-        this.buttons = [];
-        this.userSequence = [];
-        this.correctSequence = [];
-    }
-
+    // Hide the order on all buttons (used before game interaction)
     hideOrders() {
         this.buttons.forEach(button => {
             button.hideOrder();
@@ -145,11 +144,12 @@ class ButtonManager {
     }
 }
 
+
 class ScrambleManager {
     constructor(buttonManager) {
         this.buttonManager = buttonManager;
 
-        // Handle window resize event
+        // Handle window resize event to keep buttons in the visible area
         window.addEventListener('resize', () => this.adjustForResize());
     }
 
@@ -162,8 +162,8 @@ class ScrambleManager {
         }
 
         setTimeout(() => {
-            this.buttonManager.hideOrders();
-            this.buttonManager.enableUserInput(); // Allow user interaction after scrambling
+            this.buttonManager.hideOrders(); // Hide the button orders
+            this.buttonManager.enableUserInput(); // Enable user interaction after scrambling
         }, numScrambles * 2000);
     }
 
@@ -227,14 +227,14 @@ class ScrambleManager {
             const adjustedY = Math.min(y, windowHeight - 80);  // Button height approx 80px
 
             button.move([adjustedX, adjustedY]);
-            this.buttonManager.updateButtonPosition(button);
         });
     }
 }
 
 
 class ButtonInputBox {
-    constructor() {
+    constructor(buttonManager) {
+        this.buttonManager = buttonManager;  // Reuse the same ButtonManager instance
         this.inputElement = this.createInputBox();
         this.startButton = null; // Reference to the start button
     }
@@ -291,13 +291,13 @@ class ButtonInputBox {
     onButtonClick() {
         const numButtons = this.getNumberOfButtons();
         if (numButtons !== null) {
-            const buttonManager = new ButtonManager();
-            const scrambleManager = new ScrambleManager(buttonManager);
+            const scrambleManager = new ScrambleManager(this.buttonManager);  // Use existing ButtonManager instance
 
             // Disable the input and start button while the game is running
             this.disableInput();
 
-            buttonManager.createButtons(numButtons);
+            // Remove existing buttons and create new ones
+            this.buttonManager.createButtons(numButtons);
 
             // Start scrambling after a pause of numButtons seconds
             setTimeout(() => {
@@ -313,5 +313,8 @@ class ButtonInputBox {
 }
 
 
-// Initialize the input box and start the game
-const inputBox = new ButtonInputBox();
+// Initialize a single instance of ButtonManager
+const buttonManager = new ButtonManager();
+
+// Initialize the input box and pass the ButtonManager instance
+const inputBox = new ButtonInputBox(buttonManager);
