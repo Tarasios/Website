@@ -1,4 +1,4 @@
-import MESSAGES from '../lang/messages/en/user.js';
+import MESSAGES from '../lang/messages/en/lab0.js';
 
 class GameButton {
     constructor(order, color, pattern) {
