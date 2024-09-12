@@ -137,6 +137,7 @@ class ScrambleManager {
         window.addEventListener('resize', () => this.adjustForResize());
     }
 
+    // Scramble buttons randomly numScrambles times
     scrambleButtons(numScrambles) {
         for (let i = 0; i < numScrambles; i++) {
             setTimeout(() => {
@@ -150,11 +151,14 @@ class ScrambleManager {
         }, numScrambles * 2000);
     }
 
+    // Move all buttons to non-overlapping positions
     moveButtonsRandomly() {
         const buttonWidth = 160; // Approx 10em in pixels
         const buttonHeight = 80;  // Approx 5em in pixels
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
+
+        let newPositions = [];
 
         this.buttonManager.buttons.forEach(button => {
             let newPosition;
@@ -162,10 +166,11 @@ class ScrambleManager {
             // Generate new positions until we find one that does not overlap
             do {
                 newPosition = this.randomPosition(buttonWidth, buttonHeight, windowWidth, windowHeight);
-            } while (this.checkOverlap(newPosition, button, buttonWidth, buttonHeight));
+            } while (this.checkOverlap(newPosition, newPositions, buttonWidth, buttonHeight));
 
+            // Store the new position and update the button
+            newPositions.push(newPosition);
             button.move(newPosition);
-            this.buttonManager.updateButtonPosition(button);
         });
     }
 
@@ -176,20 +181,18 @@ class ScrambleManager {
         return [x, y];
     }
 
-    // Check if the new position overlaps with any other button
-    checkOverlap(newPosition, currentButton, buttonWidth, buttonHeight) {
+    // Check if the new position overlaps with any of the already placed buttons
+    checkOverlap(newPosition, existingPositions, buttonWidth, buttonHeight) {
         const [newX, newY] = newPosition;
 
-        // Loop through all buttons to check for overlap
-        for (let button of this.buttonManager.buttons) {
-            if (button !== currentButton) {
-                const [buttonX, buttonY] = button.position;
-                const dx = Math.abs(buttonX - newX);
-                const dy = Math.abs(buttonY - newY);
-                
-                if (dx < buttonWidth && dy < buttonHeight) {
-                    return true; // Overlap detected
-                }
+        // Loop through the already determined new positions to check for overlap
+        for (let pos of existingPositions) {
+            const [posX, posY] = pos;
+            const dx = Math.abs(posX - newX);
+            const dy = Math.abs(posY - newY);
+
+            if (dx < buttonWidth && dy < buttonHeight) {
+                return true; // Overlap detected
             }
         }
         return false; // No overlap
