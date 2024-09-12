@@ -218,19 +218,35 @@ class ScrambleManager {
         return false; // No overlap
     }
 
-    // Adjust button positions after window resize
+    // Adjust button positions after window resize and check for overlap
     adjustForResize() {
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
+
+        let newPositions = [];
 
         this.buttonManager.buttons.forEach(button => {
             const [x, y] = button.position;
 
             // Ensure buttons stay within the new window bounds after resizing
-            const adjustedX = Math.min(Math.max(0, x), windowWidth - 160); // Keep within width
-            const adjustedY = Math.min(Math.max(0, y), windowHeight - 80); // Keep within height
+            let adjustedX = Math.min(Math.max(0, x), windowWidth - 160); // Keep within width
+            let adjustedY = Math.min(Math.max(0, y), windowHeight - 80); // Keep within height
 
-            button.move([adjustedX, adjustedY]); // Adjust the button's position
+            let newPosition = [adjustedX, adjustedY];
+
+            // Check for overlap and adjust the button's position if necessary
+            do {
+                // Generate a new position within the window bounds if overlap is detected
+                if (this.checkOverlap(newPosition, newPositions, 160, 80)) {
+                    newPosition = this.randomPosition(160, 80, windowWidth, windowHeight);
+                } else {
+                    break;
+                }
+            } while (true);
+
+            // Store the adjusted position
+            newPositions.push(newPosition);
+            button.move(newPosition);
         });
     }
 }
