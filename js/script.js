@@ -219,9 +219,8 @@ class ScrambleManager {
 
 class ButtonInputBox {
     constructor() {
-        this.inputElement = null;  // Initialize with null to avoid any undefined issues
-        this.startButton = null;  // Initialize with null
-        this.createInputBox();  // Call the method to create the input and button
+        this.inputElement = this.createInputBox();
+        this.startButton = null; // Reference to the start button
     }
 
     createInputBox() {
@@ -231,7 +230,7 @@ class ButtonInputBox {
         inputBoxLabel.innerText = MESSAGES.userPromptMessage;
 
         // Create input field
-        this.inputElement = document.createElement('input');  // Set to the instance variable
+        this.inputElement = document.createElement('input');
         this.inputElement.id = 'numButtons';
         this.inputElement.type = 'number';
         this.inputElement.min = 3;
@@ -239,7 +238,7 @@ class ButtonInputBox {
         this.inputElement.placeholder = 'Enter a number between 3 and 7';
 
         // Create button
-        this.startButton = document.createElement('button');  // Set to the instance variable
+        this.startButton = document.createElement('button');
         this.startButton.id = 'startBtn';
         this.startButton.innerText = MESSAGES.goButtonText;
 
@@ -250,6 +249,8 @@ class ButtonInputBox {
 
         // Add event listener to the button
         this.startButton.addEventListener('click', () => this.onButtonClick());
+
+        return inputBox;
     }
 
     getNumberOfButtons() {
@@ -262,21 +263,13 @@ class ButtonInputBox {
     }
 
     disableInput() {
-        if (this.inputElement && this.startButton) {
-            this.inputElement.disabled = true;
-            this.startButton.disabled = true;
-        } else {
-            console.error("Input or Start Button not found.");
-        }
+        this.inputElement.disabled = true;
+        this.startButton.disabled = true;
     }
 
     enableInput() {
-        if (this.inputElement && this.startButton) {
-            this.inputElement.disabled = false;
-            this.startButton.disabled = false;
-        } else {
-            console.error("Input or Start Button not found.");
-        }
+        this.inputElement.disabled = false;
+        this.startButton.disabled = false;
     }
 
     onButtonClick() {
@@ -302,7 +295,6 @@ class ButtonInputBox {
         }
     }
 }
-
 
 
 // Initialize the input box and start the game
