@@ -1,6 +1,8 @@
-messages = {
-    userPromptMessage: "How many buttons do you want to create?",
+const MESSAGES = {
+    userPromptMessage: "How many buttons to create?",
     invalidInputMessage: "Please enter a number between 3 and 7.",
     successMessage: "Excellent memory!",
-    failureMessage: "Wrong order! Game over.",
+    failureMessage: "Wrong order! Game over."
 };
+
+export default MESSAGES;
