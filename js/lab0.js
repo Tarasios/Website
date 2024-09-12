@@ -237,8 +237,9 @@ class ScrambleManager {
 class ButtonInputBox {
     constructor(buttonManager) {
         this.buttonManager = buttonManager;  // Reuse the same ButtonManager instance
-        this.inputElement = this.createInputBox();
-        this.startButton = null; // Reference to the start button
+        this.inputElement = null;  // Initialize input element to null
+        this.startButton = null;  // Initialize start button to null
+        this.createInputBox();  // Call method to create the input box
     }
 
     createInputBox() {
@@ -267,8 +268,6 @@ class ButtonInputBox {
 
         // Add event listener to the button
         this.startButton.addEventListener('click', () => this.onButtonClick());
-
-        return inputBox;
     }
 
     getNumberOfButtons() {
