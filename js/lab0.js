@@ -146,7 +146,6 @@ class ButtonManager {
     }
 }
 
-
 class ScrambleManager {
     constructor(buttonManager) {
         this.buttonManager = buttonManager;
@@ -169,7 +168,7 @@ class ScrambleManager {
         }, numScrambles * 2000);
     }
 
-    // Move all buttons to non-overlapping positions
+    // Move all buttons to non-overlapping positions and within the window
     moveButtonsRandomly() {
         const buttonWidth = 160; // Approx 10em in pixels
         const buttonHeight = 80;  // Approx 5em in pixels
@@ -181,7 +180,7 @@ class ScrambleManager {
         this.buttonManager.buttons.forEach(button => {
             let newPosition;
 
-            // Generate new positions until we find one that does not overlap
+            // Generate new positions until we find one that does not overlap or go out of bounds
             do {
                 newPosition = this.randomPosition(buttonWidth, buttonHeight, windowWidth, windowHeight);
             } while (this.checkOverlap(newPosition, newPositions, buttonWidth, buttonHeight));
@@ -194,6 +193,7 @@ class ScrambleManager {
 
     // Randomly generate a valid position within the window bounds
     randomPosition(buttonWidth, buttonHeight, windowWidth, windowHeight) {
+        // Ensure the position is within the bounds of the visible window
         const x = Math.random() * (windowWidth - buttonWidth);
         const y = Math.random() * (windowHeight - buttonHeight);
         return [x, y];
@@ -224,14 +224,15 @@ class ScrambleManager {
         this.buttonManager.buttons.forEach(button => {
             const [x, y] = button.position;
 
-            // If the button is outside the current window size, move it inside
-            const adjustedX = Math.min(x, windowWidth - 160); // Button width approx 160px
-            const adjustedY = Math.min(y, windowHeight - 80);  // Button height approx 80px
+            // Ensure buttons stay within the new window bounds after resizing
+            const adjustedX = Math.min(Math.max(0, x), windowWidth - 160); // Keep within width
+            const adjustedY = Math.min(Math.max(0, y), windowHeight - 80); // Keep within height
 
-            button.move([adjustedX, adjustedY]);
+            button.move([adjustedX, adjustedY]); // Adjust the button's position
         });
     }
 }
+
 
 
 class ButtonInputBox {
