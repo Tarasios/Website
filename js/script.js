@@ -6,15 +6,20 @@ class GameButton {
         this.color = color;
         this.pattern = pattern; // Pattern will be a CSS background property
         this.buttonElement = document.createElement("button");
-        this.buttonElement.innerText = order; // Show the initial order
+
+        this.buttonElement.innerText = order; // Show the initial order as passed
         this.buttonElement.style.background = pattern ? pattern : color;
         this.buttonElement.style.height = '5em';
         this.buttonElement.style.width = '10em';
         this.buttonElement.style.position = 'absolute'; // For random movement
         document.body.appendChild(this.buttonElement);
+
+        // Initial position
+        this.position = [0, 0];
     }
 
     setPosition(top, left) {
+        this.position = [left, top];
         this.buttonElement.style.top = top + 'px';
         this.buttonElement.style.left = left + 'px';
     }
@@ -24,9 +29,14 @@ class GameButton {
     }
 
     showOrder() {
-        this.buttonElement.innerText = this.order + 1; // Reveal the order
+        this.buttonElement.innerText = this.order; // Reveal the order
+    }
+
+    move(newPosition) {
+        this.setPosition(newPosition[1], newPosition[0]);
     }
 }
+
 
 
 class ButtonManager {
@@ -122,10 +132,12 @@ class ButtonManager {
 class ScrambleManager {
     constructor(buttonManager) {
         this.buttonManager = buttonManager;
+
+        // Handle window resize event
+        window.addEventListener('resize', () => this.adjustForResize());
     }
 
     scrambleButtons(numScrambles) {
-        const numButtons = this.buttonManager.numButtons;
         for (let i = 0; i < numScrambles; i++) {
             setTimeout(() => {
                 this.moveButtonsRandomly();
@@ -139,15 +151,68 @@ class ScrambleManager {
     }
 
     moveButtonsRandomly() {
+        const buttonWidth = 160; // Approx 10em in pixels
+        const buttonHeight = 80;  // Approx 5em in pixels
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
+
         this.buttonManager.buttons.forEach(button => {
-            const randomTop = Math.floor(Math.random() * (windowHeight - 100));
-            const randomLeft = Math.floor(Math.random() * (windowWidth - 100));
-            button.setPosition(randomTop, randomLeft);
+            let newPosition;
+
+            // Generate new positions until we find one that does not overlap
+            do {
+                newPosition = this.randomPosition(buttonWidth, buttonHeight, windowWidth, windowHeight);
+            } while (this.checkOverlap(newPosition, button, buttonWidth, buttonHeight));
+
+            button.move(newPosition);
+            this.buttonManager.updateButtonPosition(button);
+        });
+    }
+
+    // Randomly generate a valid position within the window bounds
+    randomPosition(buttonWidth, buttonHeight, windowWidth, windowHeight) {
+        const x = Math.random() * (windowWidth - buttonWidth);
+        const y = Math.random() * (windowHeight - buttonHeight);
+        return [x, y];
+    }
+
+    // Check if the new position overlaps with any other button
+    checkOverlap(newPosition, currentButton, buttonWidth, buttonHeight) {
+        const [newX, newY] = newPosition;
+
+        // Loop through all buttons to check for overlap
+        for (let button of this.buttonManager.buttons) {
+            if (button !== currentButton) {
+                const [buttonX, buttonY] = button.position;
+                const dx = Math.abs(buttonX - newX);
+                const dy = Math.abs(buttonY - newY);
+                
+                if (dx < buttonWidth && dy < buttonHeight) {
+                    return true; // Overlap detected
+                }
+            }
+        }
+        return false; // No overlap
+    }
+
+    // Adjust button positions after window resize
+    adjustForResize() {
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+
+        this.buttonManager.buttons.forEach(button => {
+            const [x, y] = button.position;
+
+            // If the button is outside the current window size, move it inside
+            const adjustedX = Math.min(x, windowWidth - 160); // Button width approx 160px
+            const adjustedY = Math.min(y, windowHeight - 80);  // Button height approx 80px
+
+            button.move([adjustedX, adjustedY]);
+            this.buttonManager.updateButtonPosition(button);
         });
     }
 }
+
 
 class ButtonInputBox {
     constructor() {
