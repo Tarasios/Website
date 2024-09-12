@@ -6,7 +6,7 @@ class GameButton {
         this.color = color;
         this.pattern = pattern; // Pattern will be a CSS background property
         this.buttonElement = document.createElement("button");
-        this.buttonElement.innerText = order + 1; // Show the initial order
+        this.buttonElement.innerText = order; // Show the initial order
         this.buttonElement.style.background = pattern ? pattern : color;
         this.buttonElement.style.height = '5em';
         this.buttonElement.style.width = '10em';
