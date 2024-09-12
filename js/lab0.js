@@ -168,7 +168,7 @@ class ScrambleManager {
         }, numScrambles * 2000);
     }
 
-    // Move all buttons to non-overlapping positions and within the window
+    // Move all buttons to non-overlapping positions within the window
     moveButtonsRandomly() {
         const buttonWidth = 160; // Approx 10em in pixels
         const buttonHeight = 80;  // Approx 5em in pixels
@@ -206,10 +206,12 @@ class ScrambleManager {
         // Loop through the already determined new positions to check for overlap
         for (let pos of existingPositions) {
             const [posX, posY] = pos;
-            const dx = Math.abs(posX - newX);
-            const dy = Math.abs(posY - newY);
+            
+            // Check for overlap in both the X and Y directions
+            const overlapX = newX < posX + buttonWidth && newX + buttonWidth > posX;
+            const overlapY = newY < posY + buttonHeight && newY + buttonHeight > posY;
 
-            if (dx < buttonWidth && dy < buttonHeight) {
+            if (overlapX && overlapY) {
                 return true; // Overlap detected
             }
         }
