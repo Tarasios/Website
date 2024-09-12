@@ -1,12 +1,13 @@
 import MESSAGES from '../lang/messages/en/user.js';
 
 class GameButton {
-    constructor(color, order) {
+    constructor(order, color, pattern) {
         this.order = order;
         this.color = color;
+        this.pattern = pattern; // Pattern will be a CSS background property
         this.buttonElement = document.createElement("button");
         this.buttonElement.innerText = order + 1; // Show the initial order
-        this.buttonElement.style.backgroundColor = color;
+        this.buttonElement.style.background = pattern ? pattern : color;
         this.buttonElement.style.height = '5em';
         this.buttonElement.style.width = '10em';
         this.buttonElement.style.position = 'absolute'; // For random movement
@@ -26,6 +27,7 @@ class GameButton {
         this.buttonElement.innerText = this.order + 1; // Reveal the order
     }
 }
+
 
 class ButtonManager {
     constructor() {
@@ -147,10 +149,10 @@ class ScrambleManager {
     }
 }
 
-// Class to handle input and game start logic
 class ButtonInputBox {
     constructor() {
         this.inputElement = this.createInputBox();
+        this.startButton = null; // Reference to the start button
     }
 
     createInputBox() {
@@ -168,17 +170,17 @@ class ButtonInputBox {
         inputBox.placeholder = 'Enter a number between 3 and 7';
 
         // Create button
-        const startButton = document.createElement('button');
-        startButton.id = 'startBtn';
-        startButton.innerText = MESSAGES.goButtonText;
+        this.startButton = document.createElement('button');
+        this.startButton.id = 'startBtn';
+        this.startButton.innerText = MESSAGES.goButtonText;
 
         // Append input elements to the document body
         document.body.appendChild(inputBoxLabel);
         document.body.appendChild(inputBox);
-        document.body.appendChild(startButton);
+        document.body.appendChild(this.startButton);
 
         // Add event listener to the button
-        startButton.addEventListener('click', () => this.onButtonClick());
+        this.startButton.addEventListener('click', () => this.onButtonClick());
 
         return inputBox;
     }
@@ -192,11 +194,24 @@ class ButtonInputBox {
         return value;
     }
 
+    disableInput() {
+        this.inputElement.disabled = true;
+        this.startButton.disabled = true;
+    }
+
+    enableInput() {
+        this.inputElement.disabled = false;
+        this.startButton.disabled = false;
+    }
+
     onButtonClick() {
         const numButtons = this.getNumberOfButtons();
         if (numButtons !== null) {
             const buttonManager = new ButtonManager();
             const scrambleManager = new ScrambleManager(buttonManager);
+
+            // Disable the input and start button while the game is running
+            this.disableInput();
 
             buttonManager.createButtons(numButtons);
 
@@ -204,9 +219,16 @@ class ButtonInputBox {
             setTimeout(() => {
                 scrambleManager.scrambleButtons(numButtons);
             }, numButtons * 1000); // Wait n seconds before scrambling
+
+            // Re-enable the input and button after the game ends
+            // Assuming this happens after user clicks all the buttons in the correct order
+            setTimeout(() => {
+                this.enableInput();
+            }, (numButtons * 2000) + 5000); // Estimate game time (scrambling + play time)
         }
     }
 }
+
 
 // Initialize the input box and start the game
 const inputBox = new ButtonInputBox();
