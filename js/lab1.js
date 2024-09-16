@@ -1,5 +1,5 @@
 // Programming support provided by: ChatGPT
-import MESSAGES from '../lang/messages/en/lab2Messages.js';
+import MESSAGES from '../lang/messages/en/lab1Messages.js';
 
 // Class to handle student name input and storage
 class Student {
@@ -7,6 +7,10 @@ class Student {
         this.studentNameElement = document.getElementById("studentName");
         this.nameInputElement = document.getElementById("nameInput");
         this.saveButton = document.getElementById("saveNameButton");
+
+        // Set placeholders and button text dynamically
+        this.nameInputElement.placeholder = MESSAGES.nameInputPlaceholder;
+        this.saveButton.textContent = MESSAGES.saveNameButtonText;
 
         // Load the student name from localStorage
         this.loadStudentName();
@@ -29,7 +33,7 @@ class Student {
                 localStorage.setItem("studentName", nameInput);
                 this.studentNameElement.textContent = `Student: ${nameInput}`;
             } else {
-                alert("Please enter a valid name.");
+                alert(MESSAGES.invalidNameMessage);  // No hardcoded strings, alert from MESSAGES
             }
         };
     }
@@ -133,18 +137,17 @@ class UI {
         if (window.location.pathname.includes("writer.html")) {
             document.getElementById("addNote").textContent = MESSAGES.addButtonText;
             document.getElementById("backButton").textContent = MESSAGES.backButtonText;
-            document.getElementById("backButton").onclick = () => window.location.href = 'lab2.html';
-
+            document.getElementById("backButton").onclick = () => window.location.href = 'lab1.html';
         }
 
         if (window.location.pathname.includes("reader.html")) {
             document.getElementById("backButton").textContent = MESSAGES.backButtonText;
-            document.getElementById("backButton").onclick = () => window.location.href = 'lab2.html';
+            document.getElementById("backButton").onclick = () => window.location.href = 'lab1.html';
         }
     }
 }
 
-// Class to handle the lab2.html landing page
+// Class to handle the lab1.html landing page
 class LabLanding {
     constructor() {
         document.getElementById("pageTitle").textContent = MESSAGES.pageTitle;
@@ -161,8 +164,8 @@ class LabLanding {
 
 // Initialize the appropriate class based on the current page
 document.addEventListener("DOMContentLoaded", () => {
-    // If on lab2.html, initialize the landing page and student input
-    if (window.location.pathname.includes("lab2.html")) {
+    // If on lab1.html, initialize the landing page and student input
+    if (window.location.pathname.includes("lab1.html")) {
         new LabLanding();
         new Student();
     }
