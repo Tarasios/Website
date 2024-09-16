@@ -4,10 +4,12 @@ const MESSAGES = {
     backButtonText: "Back",
     lastUpdatedText: "Updated at:",
     lastSavedText: "Stored at:",
-    pageTitle: "Lab 2: JSON and LocalStorage",
+    defaultStudentName: "Student: [Not set]",
     writerPageLinkText: "Go to Writer Page",
     readerPageLinkText: "Go to Reader Page",
-    defaultStudentName: "Student: [Name not set]"
+    invalidNameMessage: "Please enter a valid name.",
+    saveNameButtonText: "Save Name",
+    nameInputPlaceholder: "Enter your name"
 };
 
 export default MESSAGES;
