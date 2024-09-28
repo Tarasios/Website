@@ -1,8 +1,8 @@
-const http = require('http');
-const url = require('url');
-const fileOperations = require('./modules/lab3FileOperations'); // OOP version of file operations
-const lab3Utils = require('./modules/lab3Utils');  // OOP version of utils
-const { greetingMessage } = require('./lang/messages/en/lab3Messages');
+import http from 'http';
+import url from 'url';
+import fileOperations from './modules/lab3FileOperations.js'; // OOP version of file operations
+import lab3Utils from './modules/lab3Utils.js';  // OOP version of utils
+import MESSAGES from './lang/messages/en/lab3Messages.js';  // Import MESSAGES directly
 
 // Class for handling file operations
 class FileHandler {
@@ -11,7 +11,7 @@ class FileHandler {
     fileOperations.appendToFile(text)  // Using OOP fileOperations class instance
       .then((message) => {
         res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.end(`<p>${greetingMessage.replace('%s', message)}</p>`);
+        res.end(`<p>${MESSAGES.appendSuccessMessage.replace('%s', message)}</p>`);  // Use MESSAGES for text
       })
       .catch((err) => {
         res.writeHead(500, { 'Content-Type': 'text/html' });
@@ -28,7 +28,7 @@ class FileHandler {
       })
       .catch(() => {
         res.writeHead(404, { 'Content-Type': 'text/html' });
-        res.end('<p>404: File not found</p>');
+        res.end(`<p>${MESSAGES.fileNotFoundError}</p>`);  // Use MESSAGES for the error message
       });
   }
 }
@@ -58,7 +58,7 @@ class Lab3Server {
   // Method to handle invalid paths
   send404(res) {
     res.writeHead(404, { 'Content-Type': 'text/html' });
-    res.end('<p>404: Not Found</p>');
+    res.end(`<p>${MESSAGES.fileNotFoundError}</p>`);  // Use MESSAGES for 404 error message
   }
 
   // Method to start the server

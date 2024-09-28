@@ -1,7 +1,9 @@
-function getDate() {
-    return new Date().toString(); // Return current server date and time
-}
-
-module.exports = {
-    getDate,
-};
+class Lab3Utils {
+    // Method to get the current date and time
+    getDate() {
+      return new Date().toString();
+    }
+  }
+  
+  module.exports = new Lab3Utils();
+  
