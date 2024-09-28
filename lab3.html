@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle"></title>
+    <link rel="stylesheet" href="css/lab3.css">
+</head>
+<body>
+    <h1 id="pageHeader"></h1>
+
+    <form id="writeForm">
+        <label for="text" id="enterTextLabel"></label>
+        <input type="text" id="text" name="text" required>
+        <button type="submit" id="appendButton"></button>
+    </form>
+
+    <button id="readFileButton"></button>
+    <pre id="fileContent"></pre>
+
+    <script>
+        // Helper function to load messages dynamically
+        function loadMessages() {
+            return fetch('/lang/messages/en/lab3Messages.js')
+                .then(response => response.json())
+                .catch(err => {
+                    console.error('Error loading messages:', err);
+                    throw new Error('Failed to load messages');
+                });
+        }
+
+        // Load messages and update the DOM
+        loadMessages().then(messages => {
+            const elementsMap = {
+                pageTitle: 'pageTitle',
+                pageHeader: 'pageHeader',
+                enterTextLabel: 'enterTextLabel',
+                appendButton: 'appendButton',
+                readButton: 'readFileButton'
+            };
+
+            Object.keys(elementsMap).forEach(key => {
+                const elementId = elementsMap[key];
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.textContent = messages[key];
+                }
+            });
+        });
+
+        // Handle form submission to append text to file
+        document.getElementById('writeForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const text = document.getElementById('text').value;
+            fetch(`/lab3/writeFile/?text=${encodeURIComponent(text)}`)
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                })
+                .catch(err => {
+                    console.error('Error appending text to file:', err);
+                    alert('Failed to append text.');
+                });
+        });
+
+        // Handle button click to read file contents
+        document.getElementById('readFileButton').addEventListener('click', function () {
+            fetch('/lab3/readFile/file.txt')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('File not found');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('fileContent').textContent = data;
+                })
+                .catch(err => {
+                    console.error('Error reading file:', err);
+                    loadMessages().then(messages => {
+                        alert(messages.fileNotFoundError);
+                    });
+                });
+        });
+    </script>
+</body>
+</html>
