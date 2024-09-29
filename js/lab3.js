@@ -1,5 +1,8 @@
 import MESSAGES from '../lang/messages/en/lab3Messages.js';
 
+// Cloud Function URL (replace with your deployed URL)
+const cloudFunctionURL = 'https://lab3-ot2n9d6hq-tarasios-projects.vercel.app';
+
 class Lab3Page {
   constructor() {
     this.elementsMap = {
@@ -11,7 +14,7 @@ class Lab3Page {
     };
   }
 
-  // Update the DOM with messages
+  // Method to update the DOM with messages
   updateDOM() {
     Object.keys(this.elementsMap).forEach(key => {
       const elementId = this.elementsMap[key];
@@ -22,41 +25,21 @@ class Lab3Page {
     });
   }
 
-  // Handle form submission to append text to file
+  // Handle form submission to send text to Firebase Cloud Function
   handleFormSubmit() {
     const form = document.getElementById('writeForm');
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const text = document.getElementById('text').value;
-      fetch(`/lab3/writeFile/?text=${encodeURIComponent(text)}`)
+
+      fetch(`${cloudFunctionURL}?text=${encodeURIComponent(text)}`)
         .then(response => response.text())
         .then(data => {
-          alert(data);
+          alert(data);  // Alert success message from the Cloud Function
         })
         .catch(err => {
-          console.error('Error appending text to file:', err);
-          alert(MESSAGES.appendSuccessMessage);
-        });
-    });
-  }
-
-  // Handle button click to read file contents
-  handleReadFile() {
-    const readButton = document.getElementById('readFileButton');
-    readButton.addEventListener('click', () => {
-      fetch('/lab3/readFile/file.txt')
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('File not found');
-          }
-          return response.text();
-        })
-        .then(data => {
-          document.getElementById('fileContent').textContent = data;
-        })
-        .catch(err => {
-          console.error('Error reading file:', err);
-          alert(MESSAGES.fileNotFoundError);
+          console.error('Error:', err);
+          alert(MESSAGES.fileNotFoundError);  // Display error message
         });
     });
   }
@@ -65,7 +48,6 @@ class Lab3Page {
   init() {
     this.updateDOM();
     this.handleFormSubmit();
-    this.handleReadFile();
   }
 }
 
