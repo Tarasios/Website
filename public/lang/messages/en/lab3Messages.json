@@ -1,0 +1,9 @@
+{
+    "badRequestTextRequired": "Bad Request: text parameter is required",
+    "appendedText": "Appended text: %s",
+    "fileNotFound": "404 Not Found: %s",
+    "internalServerError": "Internal Server Error",
+    "enterTextToAppend": "Please enter some text to append.",
+    "errorOccurred": "An error occurred: %s"
+  }
+  

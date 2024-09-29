@@ -1,37 +1,34 @@
+// lab3FileOperations.js
 const fs = require('fs');
 const path = require('path');
 
-class FileOperations {
-  constructor() {
-    this.filePath = path.join(__dirname, '..', 'file.txt');
+class Lab3FileOperations {
+  constructor(filename) {
+    this.filename = filename;
+    this.filePath = path.join(__dirname, '..', this.filename);
   }
 
-  // Method to append text to the file
-  appendToFile(text) {
+  appendText(text) {
     return new Promise((resolve, reject) => {
-      fs.appendFile(this.filePath, text + '\n', (err) => {
+      fs.appendFile(this.filePath, `${text}\n`, (err) => {
         if (err) reject(err);
-        else resolve(`Successfully appended text: ${text}`);
+        else resolve(text);
       });
     });
   }
 
-  // Method to read the file content
   readFile() {
     return new Promise((resolve, reject) => {
       fs.readFile(this.filePath, 'utf8', (err, data) => {
-        if (err) {
-          if (err.code === 'ENOENT') {
-            reject(new Error(`404: File not found - ${this.filePath}`));
-          } else {
-            reject(err);
-          }
-        } else {
-          resolve(data);
-        }
+        if (err) reject(err);
+        else resolve(data);
       });
     });
   }
+
+  fileExists() {
+    return fs.existsSync(this.filePath);
+  }
 }
 
-module.exports = new FileOperations();
+module.exports = Lab3FileOperations;
