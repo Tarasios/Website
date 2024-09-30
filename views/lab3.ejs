@@ -1,17 +1,22 @@
+<!-- views/lab3.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Lab 3</title>
-  <link rel="stylesheet" href="css/lab3.css">
+  <link rel="stylesheet" href="/css/lab3.css">
 </head>
 <body>
   <h1>Lab 3</h1>
+  <% if (greeting) { %>
+    <div class="greeting"><%= greeting %></div>
+  <% } %>
+  <!-- Existing content -->
   <input type="text" id="textInput" placeholder="Enter text to append">
   <button id="appendButton">Append Text</button>
   <button id="readButton">Read File</button>
   <pre id="fileContent"></pre>
 
-  <script src="js/lab3.js"></script>
+  <script src="/js/lab3.js"></script>
 </body>
 </html>

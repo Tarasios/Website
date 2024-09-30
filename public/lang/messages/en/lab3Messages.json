@@ -4,6 +4,7 @@
     "fileNotFound": "404 Not Found: %s",
     "internalServerError": "Internal Server Error",
     "enterTextToAppend": "Please enter some text to append.",
-    "errorOccurred": "An error occurred: %s"
+    "errorOccurred": "An error occurred: %s",
+    "greeting": "Hello %1, What a beautiful day. Server current date and time is %2"
   }
   

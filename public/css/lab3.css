@@ -1,3 +1,9 @@
+/* public/css/lab3.css */
+
+.greeting {
+    color: blue;
+  }
+  
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
