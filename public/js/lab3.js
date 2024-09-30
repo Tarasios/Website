@@ -1,5 +1,8 @@
-// Load messages
-fetch('/lang/messages/en/lab3Messages.json')
+// public/js/lab3.js
+
+const API_BASE_URL = 'beloved-rattler-ethical.ngrok-free.app'; // Replace with your ngrok URL
+
+fetch(`${API_BASE_URL}/lang/messages/en/lab3Messages.json`)
   .then((response) => response.json())
   .then((messages) => {
     document.getElementById('appendButton').addEventListener('click', () => {
@@ -10,7 +13,7 @@ fetch('/lang/messages/en/lab3Messages.json')
         return;
       }
 
-      fetch(`/writeFile?text=${encodeURIComponent(text)}`)
+      fetch(`${API_BASE_URL}/writeFile?text=${encodeURIComponent(text)}`)
         .then((response) => response.text())
         .then((data) => {
           alert(data);
@@ -21,7 +24,7 @@ fetch('/lang/messages/en/lab3Messages.json')
     });
 
     document.getElementById('readButton').addEventListener('click', () => {
-      fetch('/readFile/file.txt')
+      fetch(`${API_BASE_URL}/readFile/file.txt`)
         .then((response) => response.text())
         .then((data) => {
           document.getElementById('fileContent').innerHTML = data;
