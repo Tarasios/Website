@@ -58,7 +58,7 @@ function createDefinition() {
     };
 
     // Send POST request to the API server
-    fetch('https://yourDomainName2.wyz/api/definitions', {
+    fetch('https://isalab4-backend.onrender.com/api/definitions', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -95,7 +95,7 @@ function searchDefinition() {
     }
 
     // Send GET request to the API server
-    fetch('https://yourDomainName2.wyz/api/definitions/?word=' + encodeURIComponent(word))
+    fetch('https://isalab4-backend.onrender.com/api/definitions/?word=' + encodeURIComponent(word))
     .then(response => response.json())
     .then(data => {
         // Handle the response
