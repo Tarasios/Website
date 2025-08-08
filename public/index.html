@@ -3,39 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Labs Overview</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-        }
-        h1 {
-            color: #333;
-        }
-        ul {
-            list-style-type: none;
-        }
-        li {
-            margin: 10px 0;
-        }
-        a {
-            text-decoration: none;
-            color: #007BFF;
-            font-size: 1.2em;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title>Cassiel Williams - Developer Portfolio</title>
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <h1>Welcome to the Labs Page</h1>
-    <p>Select one of the following labs to view:</p>
-    <ul>
-        <li><a href="lab0.html">Lab 0</a></li>
-        <li><a href="lab1.html">Lab 1</a></li>
-        <li><a href="lab3.html">Lab 3</a></li>
-    </ul>
+    <nav>
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="logo" id="logo-name">Cassiel Williams</a>
+                <div class="nav-right">
+                    <ul class="nav-links">
+                        <li><a href="#projects" id="nav-projects">Projects</a></li>
+                        <li><a href="#education" id="nav-education">Education</a></li>
+                        <li><a href="#experience" id="nav-experience">Experience</a></li>
+                        <li><a href="#contact" id="nav-contact">Contact Me</a></li>
+                    </ul>
+                    <div class="language-toggle">
+                        <button id="langToggle" class="lang-btn">
+                            <span class="flag" id="lang-flag">🇫🇷</span>
+                            <span class="lang-text" id="lang-text">FR</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- ABOUT ME SECTION - Easy to Edit -->
+        <section class="hero about-section">
+            <div class="about-content">
+                <h1 id="about-greeting"></h1>
+                <h2 class="subtitle" id="about-title"></h2>
+                
+                <!-- Edit this section easily -->
+                <div class="about-text">
+                    <p id="about-intro"></p>
+                    <p id="about-passion"></p>
+                </div>
+                
+                <div class="cta-buttons">
+                    <a href="#projects" class="cta-button primary" id="cta-projects"></a>
+                    <a href="#contact" class="cta-button secondary" id="cta-contact"></a>
+                </div>
+            </div>
+        </section>
+
+        <main class="main-content">
+            <section class="section">
+                <h2 id="skills-title"></h2>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3 id="skills-languages"></h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag" id="skill-java">Java</span>
+                            <span class="skill-tag" id="skill-c">C</span>
+                            <span class="skill-tag" id="skill-python">Python</span>
+                            <span class="skill-tag" id="skill-csharp">C#</span>
+                            <span class="skill-tag" id="skill-rust">Rust</span>
+                            <span class="skill-tag" id="skill-cpp">C++</span>
+                            <span class="skill-tag" id="skill-javascript">JavaScript</span>
+                            <span class="skill-tag" id="skill-go">Go</span>
+                            <span class="skill-tag" id="skill-ocaml">OCaml</span>
+                            <span class="skill-tag" id="skill-elixir">Elixir</span>
+                            <span class="skill-tag" id="skill-erlang">Erlang</span>
+                            <span class="skill-tag" id="skill-r">R</span>
+                            <span class="skill-tag" id="skill-kotlin">Kotlin</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3 id="skills-tools"></h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag" id="skill-sql">SQL</span>
+                            <span class="skill-tag" id="skill-nosql">NoSQL</span>
+                            <span class="skill-tag" id="skill-git">Git</span>
+                            <span class="skill-tag" id="skill-github">GitHub</span>
+                            <span class="skill-tag" id="skill-vscode">VSCode</span>
+                            <span class="skill-tag" id="skill-intellij">IntelliJ</span>
+                            <span class="skill-tag" id="skill-pycharm">PyCharm</span>
+                            <span class="skill-tag" id="skill-unity">Unity</span>
+                            <span class="skill-tag" id="skill-openxr">OpenXR</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3 id="skills-ai"></h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag" id="skill-tensorflow">TensorFlow</span>
+                            <span class="skill-tag" id="skill-huggingface">HuggingFace</span>
+                            <span class="skill-tag" id="skill-trocr">TrOCR</span>
+                            <span class="skill-tag" id="skill-model-training">Model Training</span>
+                            <span class="skill-tag" id="skill-api-dev">API Development</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3 id="skills-practices"></h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag" id="skill-code-reviews">Code Reviews</span>
+                            <span class="skill-tag" id="skill-agile">Agile Sprints</span>
+                            <span class="skill-tag" id="skill-version-control">Version Control</span>
+                            <span class="skill-tag" id="skill-testing">Testing</span>
+                            <span class="skill-tag" id="skill-debugging">Debugging</span>
+                            <span class="skill-tag" id="skill-trello">Trello</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="projects" class="section">
+                <h2 id="projects-title"></h2>
+                <div class="project-grid">
+                    <div class="project-card" onclick="window.location.href='projects/safety-scanner.html'">
+                        <h3 id="project-safety-title">Safety Scanner</h3>
+                        <p id="project-safety-desc"></p>
+                        <div class="project-meta">
+                            <span class="tech-tag" id="tech-python">Python</span>
+                            <span class="tech-tag" id="tech-huggingface">HuggingFace</span>
+                            <span class="tech-tag" id="tech-api">API</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card" onclick="window.location.href='projects/mri-vr.html'">
+                        <h3 id="project-mri-title">MRI VR Simulation</h3>
+                        <p id="project-mri-desc"></p>
+                        <div class="project-meta">
+                            <span class="tech-tag" id="tech-unity">Unity</span>
+                            <span class="tech-tag" id="tech-csharp">C#</span>
+                            <span class="tech-tag" id="tech-vr">VR</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card" onclick="window.location.href='projects/songgestions.html'">
+                        <h3 id="project-songs-title">Songgestions</h3>
+                        <p id="project-songs-desc"></p>
+                        <div class="project-meta">
+                            <span class="tech-tag" id="tech-tensorflow">TensorFlow</span>
+                            <span class="tech-tag" id="tech-python2">Python</span>
+                            <span class="tech-tag" id="tech-ml">ML</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card" onclick="window.location.href='projects/first-robotics.html'">
+                        <h3 id="project-robotics-title">FIRST Robotics</h3>
+                        <p id="project-robotics-desc"></p>
+                        <div class="project-meta">
+                            <span class="tech-tag" id="tech-labview">LabVIEW</span>
+                            <span class="tech-tag" id="tech-raspberry">Raspberry Pi</span>
+                            <span class="tech-tag" id="tech-robotics">Robotics</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="education" class="section">
+                <h2 id="education-title"></h2>
+                <div class="education-timeline">
+                    <div class="education-item">
+                        <h3 id="education-bcit-title"></h3>
+                        <div class="education-meta" id="education-bcit-meta"></div>
+                        <p id="education-bcit-desc"></p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="experience" class="section">
+                <h2 id="experience-title"></h2>
+                <div class="education-timeline">
+                    <div class="education-item">
+                        <h3 id="experience-actor-title"></h3>
+                        <div class="education-meta" id="experience-actor-meta"></div>
+                        <p id="experience-actor-desc"></p>
+                    </div>
+                    
+                    <div class="education-item">
+                        <h3 id="experience-ea-title"></h3>
+                        <div class="education-meta" id="experience-ea-meta"></div>
+                        <p id="experience-ea-desc"></p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact" class="section">
+                <h2 id="contact-title"></h2>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <h3 id="contact-email"></h3>
+                        <p id="contact-email-address">sircassiel@gmail.com</p>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">💼</div>
+                        <h3 id="contact-linkedin">LinkedIn</h3>
+                        <p id="contact-linkedin-url">linkedin.com/in/tarasios</p>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">🐙</div>
+                        <h3 id="contact-github">GitHub</h3>
+                        <p id="contact-github-url">github.com/Tarasios</p>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <h3 id="contact-phone"></h3>
+                        <p id="contact-phone-number">(778) 580-7336</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>
