@@ -29,13 +29,15 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Animate skill tags on hover
     document.querySelectorAll('.skill-tag').forEach(tag => {
         tag.addEventListener('mouseenter', function() {
-            this.style.background = '#667eea';
-            this.style.color = 'white';
+            this.style.background = 'rgba(32, 178, 170, 0.3)';
+            this.style.color = '#20B2AA';
+            this.style.borderColor = '#20B2AA';
         });
-        
+
         tag.addEventListener('mouseleave', function() {
-            this.style.background = 'white';
-            this.style.color = '#2c3e50';
+            this.style.background = '#1a1a1a';
+            this.style.color = '#e0e0e0';
+            this.style.borderColor = 'rgba(32, 178, 170, 0.3)';
         });
     });
 

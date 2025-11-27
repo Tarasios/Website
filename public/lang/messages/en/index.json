@@ -1,9 +1,9 @@
 {
     "logo-name": "Cassiel Williams",
+    "nav-home": "Home",
+    "nav-about": "About",
     "nav-projects": "Projects",
-    "nav-education": "Education",
-    "nav-experience": "Experience",
-    "nav-contact": "Contact Me",
+    "nav-contact": "Contact",
     "about-greeting": "Hello, I'm Cassiel Williams",
     "about-title": "Backend Developer & System Optimizer",
     "about-intro": "Enthusiastic and adaptable developer with a strong focus on backend logic, the kind of work that makes systems run smoothly. I thrive on figuring out how things work, getting them up and running, then refining them to be cleaner, faster, and more reliable.",
